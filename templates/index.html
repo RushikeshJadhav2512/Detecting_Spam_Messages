@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Message Detection App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-roboto">
+    <header class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Spam Message Detection App</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="#" class="hover:underline">Home</a></li>
+                    <li><a href="#" class="hover:underline">About</a></li>
+                    <li><a href="#" class="hover:underline">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4">
+        <section class="bg-white p-6 rounded shadow-md mb-6">
+            <h2 class="text-xl font-bold mb-4">Check if a Message is Spam</h2>
+            <form id="spam-form" class="space-y-4">
+                <div>
+                    <label for="message" class="block text-lg font-semibold mb-2">Enter your message:</label>
+                    <textarea id="message" class="w-full p-2 border border-gray-300 rounded" rows="4" placeholder="Type your message here..."></textarea>
+                </div>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Check</button>
+            </form>
+            <div id="result" class="mt-4 p-4 hidden rounded"></div>
+        </section>
+
+        <section class="bg-white p-6 rounded shadow-md mb-6">
+            <h2 class="text-xl font-bold mb-4">Recent Checks</h2>
+            <ul id="recent-checks" class="space-y-2">
+                <li class="p-2 border border-gray-300 rounded">No recent checks.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="bg-blue-600 text-white p-4 mt-6">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2023 Spam Message Detection App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('spam-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const message = document.getElementById('message').value;
+            const resultDiv = document.getElementById('result');
+            const recentChecks = document.getElementById('recent-checks');
+
+            // Simulate spam detection
+            const isSpam = Math.random() < 0.5; // Randomly decide if it's spam for demo purposes
+
+            resultDiv.classList.remove('hidden');
+            resultDiv.classList.add(isSpam ? 'bg-red-100' : 'bg-green-100');
+            resultDiv.textContent = isSpam ? 'This message is likely spam.' : 'This message is not spam.';
+
+            // Add to recent checks
+            const newCheck = document.createElement('li');
+            newCheck.classList.add('p-2', 'border', 'border-gray-300', 'rounded');
+            newCheck.textContent = `${message} - ${isSpam ? 'Spam' : 'Not Spam'}`;
+            recentChecks.prepend(newCheck);
+
+            // Limit to 5 recent checks
+            if (recentChecks.children.length > 5) {
+                recentChecks.removeChild(recentChecks.lastChild);
+            }
+        });
+    </script>
+</body>
+</html>
